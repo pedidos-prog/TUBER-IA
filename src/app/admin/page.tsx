@@ -59,7 +59,7 @@ async function fetchSeason(supabase: ReturnType<typeof createClient>, seasonLabe
     .gte('fecha_hora', season.start.toISOString())
     .lt('fecha_hora', season.end.toISOString())
     .order('fecha_hora', { ascending: true });
-  return (data as Recoleccion[]) || [];
+  return (data as unknown as Recoleccion[]) || [];
 }
 
 // Días totales en un rango incluyendo sáb y dom
