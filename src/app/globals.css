@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Pantone 623C: verde salvia apagado */
+  --bg: #e8ede8;
+  --bg-card: #f2f5f2;
+  --bg-input: #dde4dd;
+  --border: #c2cec2;
+  --border-light: #b5c4b5;
+  --accent: #3a5c3a;
+  --accent-dark: #2d472d;
+  --accent-light: #4f7a4f;
+  --text: #1a2a1a;
+  --text-muted: #3d5c3d;
+  --text-dim: #6b8c6b;
+  --success: #2d6e2d;
+  --error: #b03030;
+  --shadow: 0 2px 16px rgba(30,60,30,0.10);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 600; }
+a { color: var(--accent); text-decoration: none; }
+button { cursor: pointer; font-family: 'DM Sans', sans-serif; }
+input, select, textarea { font-family: 'DM Sans', sans-serif; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }

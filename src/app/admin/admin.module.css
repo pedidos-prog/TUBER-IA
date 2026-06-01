@@ -1,0 +1,217 @@
+.container { min-height: 100vh; background: var(--bg); }
+.loading { display: flex; align-items: center; justify-content: center; min-height: 100vh; color: var(--text-muted); }
+
+/* HEADER */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px;
+  background: var(--accent);
+  position: sticky; top: 0; z-index: 20;
+}
+.headerLeft { display: flex; align-items: center; gap: 12px; }
+.logoIcon { color: #fff; font-size: 20px; }
+.title { display: block; font-family: 'Playfair Display', serif; font-size: 17px; color: #fff; line-height: 1.2; }
+.season { display: block; font-size: 11px; color: rgba(255,255,255,0.7); }
+.headerRight { display: flex; align-items: center; gap: 10px; }
+.adminName { color: rgba(255,255,255,0.8); font-size: 13px; }
+.gestionBtn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-sm); color: #fff; padding: 6px 12px; font-size: 13px; transition: all 0.2s; }
+.gestionBtn:hover { background: rgba(255,255,255,0.25); }
+.logoutBtn { background: transparent; border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-sm); color: rgba(255,255,255,0.8); padding: 6px 12px; font-size: 13px; transition: all 0.2s; }
+.logoutBtn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+.main { padding: 20px 24px; max-width: 1400px; margin: 0 auto; }
+
+/* STATS */
+.statsRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+@media (max-width: 600px) { .statsRow { grid-template-columns: 1fr; gap: 8px; } }
+
+.statCard { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; }
+.statLabel { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); margin-bottom: 4px; }
+.statValue { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--accent); }
+
+/* MAIN TABS */
+.mainTabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--border); overflow-x: auto; }
+.mainTab { background: transparent; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; padding: 10px 18px; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+.mainTab:hover { color: var(--text); }
+.mainTabActive { color: var(--accent) !important; border-bottom-color: var(--accent); }
+
+/* SEASON SELECTOR MOBILE DROPDOWN */
+.seasonDropdown {
+  display: none;
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  outline: none;
+  -webkit-appearance: none;
+}
+@media (max-width: 768px) { .seasonDropdown { display: block; } }
+
+/* LAYOUT */
+.content { display: grid; grid-template-columns: 240px 1fr; gap: 16px; align-items: start; }
+@media (max-width: 768px) { .content { grid-template-columns: 1fr; } }
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; position: sticky; top: 68px;
+  max-height: calc(100vh - 90px); overflow-y: auto;
+}
+.sidebar h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); margin-bottom: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+
+/* SEASON SELECTOR IN SIDEBAR (desktop only) */
+.seasonSelectorSidebar { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+@media (max-width: 768px) { .seasonSelectorSidebar { display: none; } }
+.seasonBtnSidebar { background: var(--bg-input); border: 1px solid var(--border); border-radius: 4px; color: var(--text-dim); padding: 4px 8px; font-size: 11px; cursor: pointer; transition: all 0.15s; }
+.seasonBtnSidebar:hover { color: var(--text-muted); border-color: var(--accent); }
+.seasonBtnSidebarActive { background: var(--accent); color: #fff !important; border-color: var(--accent); font-weight: 600; }
+
+/* WEEK LIST */
+.weekList { display: flex; flex-direction: column; gap: 2px; }
+.weekItem { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 6px; background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); padding: 7px 8px; text-align: left; cursor: pointer; color: var(--text-dim); transition: all 0.15s; }
+.weekItem:hover { background: var(--bg-input); color: var(--text-muted); }
+.weekActive { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
+.weekHasData { color: var(--text-muted); }
+.weekNum { font-size: 11px; font-weight: 700; color: inherit; }
+.weekRange { font-size: 11px; color: inherit; }
+.weekKg { font-size: 11px; font-weight: 600; color: inherit; white-space: nowrap; }
+.weekActive .weekNum, .weekActive .weekRange, .weekActive .weekKg { color: #fff; }
+
+/* DETAIL */
+.detail { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.weekHeader { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.weekHeader h2 { font-size: 22px; color: var(--text); margin-bottom: 2px; }
+.weekDates { color: var(--text-muted); font-size: 13px; text-transform: capitalize; }
+.weekTotal { background: var(--accent); border-radius: var(--radius-sm); padding: 10px 18px; text-align: right; }
+.weekTotalLabel { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.7); margin-bottom: 2px; }
+.weekTotalValue { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; }
+
+.empty { color: var(--text-dim); text-align: center; padding: 40px; font-size: 14px; }
+
+.tables { display: flex; flex-direction: column; gap: 24px; }
+.tableSection h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); margin-bottom: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table thead tr { border-bottom: 2px solid var(--border); }
+.table th { text-align: left; padding: 8px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); font-weight: 600; }
+.table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr:hover td { background: var(--bg-input); }
+
+.numCell { text-align: right !important; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text) !important; }
+.dateCell { white-space: nowrap; font-size: 13px; }
+.totalRow td { font-weight: 700 !important; color: var(--accent) !important; border-top: 2px solid var(--border) !important; }
+
+.barWrap { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+.bar { height: 6px; background: var(--accent-light); border-radius: 3px; min-width: 2px; max-width: 80px; opacity: 0.6; }
+
+/* ATTENDANCE */
+.attendanceContainer { display: flex; flex-direction: column; gap: 24px; }
+.attendanceHeader { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.attendanceHeader h2 { font-size: 20px; }
+.seasonSelector { display: flex; gap: 6px; flex-wrap: wrap; }
+.seasonBtn { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-muted); padding: 6px 12px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.seasonBtn:hover { border-color: var(--accent); color: var(--accent); }
+.seasonBtnActive { background: var(--accent); color: #fff !important; border-color: var(--accent); font-weight: 600; }
+
+.attendanceGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.attendanceCard { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+.attCardHeader { display: flex; justify-content: space-between; align-items: baseline; }
+.attName { font-weight: 600; color: var(--text); font-size: 15px; }
+.attDias { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent); }
+.attBarTrack { height: 6px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
+.attBar { height: 100%; background: var(--accent); border-radius: 3px; }
+.attStats { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); }
+
+.attendanceTableWrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; overflow-x: auto; }
+.attendanceTableWrap h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); margin-bottom: 14px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+
+.thSeason { text-align: center !important; background: var(--bg-input); color: var(--accent-dark) !important; font-size: 11px; }
+.thSub { text-align: right !important; font-size: 11px; color: var(--text-dim) !important; font-weight: 400 !important; }
+.opNameCell { font-weight: 600; color: var(--text) !important; white-space: nowrap; }
+
+/* OPERARIO/PERRO CHART */
+.chartContainer { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.chartHeader { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.chartHeader h2 { font-size: 20px; }
+.opSelector { display: flex; flex-wrap: wrap; gap: 6px; }
+.opBtn { background: var(--bg-input); border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); padding: 5px 14px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.opBtn:hover { border-color: var(--accent); color: var(--accent); }
+.opBtnActive { background: var(--accent); color: #fff !important; border-color: var(--accent); font-weight: 600; }
+.chartSeasonSelector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+
+.dogBars { display: flex; flex-direction: column; gap: 12px; }
+.dogRow { display: grid; grid-template-columns: 130px 1fr 80px 60px; align-items: center; gap: 12px; }
+@media (max-width: 500px) { .dogRow { grid-template-columns: 100px 1fr 60px; } .dogDays { display: none; } }
+.dogName { font-weight: 600; color: var(--text); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dogBarTrack { height: 20px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
+.dogBar { height: 100%; background: var(--accent); border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: #fff; font-weight: 600; white-space: nowrap; transition: width 0.4s ease; }
+.dogKg { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); font-size: 14px; }
+.dogDays { text-align: right; font-size: 12px; color: var(--text-dim); }
+.dogTotal { border-top: 2px solid var(--border); padding-top: 10px; margin-top: 4px; }
+
+/* GESTION */
+.flash { padding: 12px 24px; font-size: 14px; font-weight: 500; }
+.flashOk { background: rgba(45,110,45,0.1); color: var(--success); border-bottom: 1px solid rgba(45,110,45,0.2); }
+.flashErr { background: rgba(176,48,48,0.08); color: var(--error); border-bottom: 1px solid rgba(176,48,48,0.2); }
+
+/* Comparativa */
+.compControls {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+
+.compControl {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.compControl label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.compControl select,
+.compControl input[type="date"] {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+
+.compControl select:focus,
+.compControl input[type="date"]:focus {
+  border-color: var(--accent);
+}
+
+.compLegend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
