@@ -2,6 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
+import { Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
@@ -13,7 +14,7 @@ interface Parcela { id: number; finca_id: number; nombre: string; }
 interface Perro { id: number; nombre: string; }
 interface Operario { id: string; nombre: string; }
 
-export default function EditarRecoleccionPage() {
+function EditarForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -50,7 +51,7 @@ export default function EditarRecoleccionPage() {
         supabase.from('parcelas').select('*').order('nombre'),
         supabase.from('perros').select('*').order('nombre'),
         supabase.from('user_roles').select('id, nombre').eq('role', 'operario').order('nombre'),
-        supabase.from('recolecciones').select('*, fincas(id), parcelas(id), perros(id)').eq('id', id).single(),
+        supabase.from('recolecciones').select('*').eq('id', id).single(),
       ]);
 
       setFincas(f || []);
@@ -61,7 +62,7 @@ export default function EditarRecoleccionPage() {
       if (rec) {
         setFincaId(String(rec.finca_id));
         setParcelaId(String(rec.parcela_id));
-        setPerroId(String(rec.perro_id));
+        setPerroId(String(rec.perro_id || ''));
         setOperarioId(rec.operario_id || '');
         setPesoGramos(String(Math.round(rec.peso_kg * 1000)));
         setFechaHora(format(new Date(rec.fecha_hora), "yyyy-MM-dd'T'HH:mm"));
@@ -76,13 +77,12 @@ export default function EditarRecoleccionPage() {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
-    if (!fincaId || !parcelaId || !perroId || pesoGramos === '' || !fechaHora) {
-      setError('Por favor completa todos los campos.');
+    if (!fincaId || !parcelaId || pesoGramos === '' || !fechaHora) {
+      setError('Por favor completa todos los campos obligatorios.');
       return;
     }
     setSaving(true);
     setError('');
-
     const supabase = createClient();
     const { error: updateError } = await supabase
       .from('recolecciones')
@@ -90,8 +90,8 @@ export default function EditarRecoleccionPage() {
         finca_id: parseInt(fincaId),
         parcela_id: parseInt(parcelaId),
         operario_id: operarioId || null,
-        operario_nombre: operarioSeleccionado?.nombre || operarioId,
-        perro_id: parseInt(perroId),
+        operario_nombre: operarioSeleccionado?.nombre || '',
+        perro_id: perroId ? parseInt(perroId) : null,
         perro_nombre: perros.find(p => p.id === parseInt(perroId))?.nombre || '',
         peso_kg: parseFloat(pesoGramos) / 1000,
         fecha_hora: new Date(fechaHora).toISOString(),
@@ -100,10 +100,10 @@ export default function EditarRecoleccionPage() {
 
     if (updateError) {
       setError('Error al guardar: ' + updateError.message);
+      setSaving(false);
     } else {
       router.push('/admin');
     }
-    setSaving(false);
   }
 
   async function handleDelete() {
@@ -122,7 +122,6 @@ export default function EditarRecoleccionPage() {
         <button className={styles.backBtn} onClick={() => router.push('/admin')}>← Dashboard</button>
         <span className={styles.title}>Editar Recolección #{id}</span>
       </header>
-
       <main className={styles.main}>
         <div className={styles.card}>
           <form onSubmit={handleSave} className={styles.form}>
@@ -133,7 +132,6 @@ export default function EditarRecoleccionPage() {
                 {operarios.map(o => <option key={o.id} value={o.id}>{o.nombre}</option>)}
               </select>
             </div>
-
             <div className={styles.row}>
               <div className={styles.field}>
                 <label>Finca</label>
@@ -150,36 +148,30 @@ export default function EditarRecoleccionPage() {
                 </select>
               </div>
             </div>
-
             <div className={styles.row}>
               <div className={styles.field}>
                 <label>Perro</label>
-                <select value={perroId} onChange={e => setPerroId(e.target.value)} required>
+                <select value={perroId} onChange={e => setPerroId(e.target.value)}>
                   <option value="">Seleccionar…</option>
                   {perros.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
                 </select>
               </div>
               <div className={styles.field}>
                 <label>Peso (gramos)</label>
-                <input
-                  type="number" value={pesoGramos}
+                <input type="number" value={pesoGramos}
                   onChange={e => setPesoGramos(e.target.value)}
-                  placeholder="0" step="1" min="0" required
-                />
+                  placeholder="0" step="1" min="0" required />
               </div>
             </div>
-
             <div className={styles.field}>
               <label>Fecha y hora</label>
               <input type="datetime-local" value={fechaHora}
                 onChange={e => setFechaHora(e.target.value)} required />
             </div>
-
             {error && <p className={styles.error}>{error}</p>}
-
             <div className={styles.actions}>
               <button type="button" className={styles.deleteBtn} onClick={handleDelete} disabled={deleting}>
-                {deleting ? 'Eliminando…' : '🗑 Eliminar registro'}
+                {deleting ? 'Eliminando…' : '🗑 Eliminar'}
               </button>
               <button type="submit" className={styles.saveBtn} disabled={saving}>
                 {saving ? 'Guardando…' : 'Guardar cambios'}
@@ -189,5 +181,13 @@ export default function EditarRecoleccionPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function EditarRecoleccionPage() {
+  return (
+    <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: 'var(--text-muted)' }}>Cargando…</div>}>
+      <EditarForm />
+    </Suspense>
   );
 }
