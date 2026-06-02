@@ -342,6 +342,7 @@ export default function AdminPage() {
         </div>
         <div className={styles.headerRight}>
           <span className={styles.adminName}>{adminName}</span>
+          <button className={styles.nuevaBtn} onClick={() => router.push('/admin/nueva-recoleccion')}>+ Registrar</button>
           <button className={styles.gestionBtn} onClick={() => router.push('/admin/gestion')}>⚙</button>
           <button className={styles.logoutBtn} onClick={handleLogout}>Salir</button>
         </div>
