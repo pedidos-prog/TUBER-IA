@@ -23,7 +23,7 @@ export default function OperarioPage() {
 
   const [fincaId, setFincaId] = useState('');
   const [parcelaId, setParcelaId] = useState('');
-  const [pesoKg, setPesoKg] = useState('');
+  const [pesoGramos, setPesoGramos] = useState('');
   const [perroId, setPerroId] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ export default function OperarioPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!fincaId || !parcelaId || pesoKg === '' || !perroId) {
+    if (!fincaId || !parcelaId || pesoGramos === '' || !perroId) {
       setError('Por favor completa todos los campos.');
       return;
     }
@@ -80,7 +80,7 @@ export default function OperarioPage() {
       operario_id: userId,
       operario_nombre: userName,
       perro_id: parseInt(perroId),
-      peso_kg: parseFloat(pesoKg),
+      peso_kg: parseFloat(pesoGramos) / 1000,  // operario introduce gramos
       fecha_hora: new Date().toISOString(),
     });
 
@@ -90,7 +90,7 @@ export default function OperarioPage() {
       setSuccess(true);
       setFincaId('');
       setParcelaId('');
-      setPesoKg('');
+      setPesoGramos('');
       setPerroId('');
       setTimeout(() => setSuccess(false), 4000);
     }
@@ -165,13 +165,13 @@ export default function OperarioPage() {
               </div>
 
               <div className={styles.field}>
-                <label>Peso (kg)</label>
+                <label>Peso (gramos)</label>
                 <input
                   type="number"
-                  value={pesoKg}
-                  onChange={e => setPesoKg(e.target.value)}
-                  placeholder="0.000"
-                  step="0.001"
+                  value={pesoGramos}
+                  onChange={e => setPesoGramos(e.target.value)}
+                  placeholder="0"
+                  step="1"
                   min="0"
                   max="50"
                   required
