@@ -45,7 +45,8 @@ export default function OperarioPage() {
       // Verificar rol
       const { data: roleData } = await supabase
         .from('user_roles').select('role, nombre').eq('id', session.user.id).single();
-      if (!roleData || roleData.role === 'admin') { router.replace('/admin'); return; }
+      if (!roleData) { router.replace('/sin-rol'); return; }
+      if (roleData.role === 'admin') { router.replace('/admin'); return; }
 
       setUserName(roleData.nombre);
       setUserId(session.user.id);

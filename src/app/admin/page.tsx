@@ -159,7 +159,8 @@ export default function AdminPage() {
       if (!session) { router.replace('/login'); return; }
       const { data: roleData } = await supabase
         .from('user_roles').select('role, nombre').eq('id', session.user.id).single();
-      if (!roleData || roleData.role !== 'admin') { router.replace('/operario'); return; }
+      if (!roleData) { router.replace('/sin-rol'); return; }
+      if (roleData.role !== 'admin') { router.replace('/operario'); return; }
       setAdminName(roleData.nombre);
       const current = getCurrentSeason();
       const records = await fetchSeason(supabase, current);
