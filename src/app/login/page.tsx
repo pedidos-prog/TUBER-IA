@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import styles from './login.module.css';
 
-const DOMAIN = '@trufa.local';
+const DOMAIN = '@trufa.app';
 
 export default function LoginPage() {
   const router = useRouter();

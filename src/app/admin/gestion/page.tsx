@@ -29,6 +29,7 @@ export default function GestionPage() {
   const [newParcelaNombre, setNewParcelaNombre] = useState('');
   const [newPerroNombre, setNewPerroNombre] = useState('');
   const [newOperarioNombre, setNewOperarioNombre] = useState('');
+  const [newOperarioEmail, setNewOperarioEmail] = useState('');
   const [newOperarioPassword, setNewOperarioPassword] = useState('');
   const [newOperarioRole, setNewOperarioRole] = useState<'operario' | 'admin'>('operario');
 
@@ -118,8 +119,11 @@ export default function GestionPage() {
 
     const supabase = createClient();
     const nombre = newOperarioNombre.trim().toUpperCase();
-    // Email interno: nombre en minúsculas sin espacios + @trufa.local
-    const email = nombre.toLowerCase().replace(/\s+/g, '') + '@trufa.local';
+    // Si tiene @, es email real; si no, generamos email interno
+    const emailInput = (newOperarioEmail || '').trim();
+    const email = emailInput.includes('@')
+      ? emailInput
+      : nombre.toLowerCase().replace(/\s+/g, '') + '@trufa.app';
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -148,6 +152,7 @@ export default function GestionPage() {
     else {
       flash('ok', `${newOperarioRole === 'admin' ? 'Admin' : 'Operario'} "${nombre}" creado · usuario: ${email.split('@')[0]}`);
       setNewOperarioNombre('');
+      setNewOperarioEmail('');
       setNewOperarioPassword('');
       load();
     }
@@ -303,6 +308,13 @@ export default function GestionPage() {
                   <option value="operario">Operario</option>
                   <option value="admin">Administrador</option>
                 </select>
+                <input
+                  type="email"
+                  placeholder="Email real (opcional — si no, se genera automático)"
+                  value={newOperarioEmail}
+                  onChange={e => setNewOperarioEmail(e.target.value)}
+                  style={{ gridColumn: '1 / -1' }}
+                />
                 <input
                   type="password"
                   placeholder="Contraseña provisional (mín. 6 caracteres)"
