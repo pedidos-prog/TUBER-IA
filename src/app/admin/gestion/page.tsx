@@ -131,7 +131,8 @@ export default function GestionPage() {
       options: {
         data: {
           nombre,
-          must_change_password: true, // fuerza cambio en primer login
+          role: newOperarioRole,        // rol en metadata para redirección inmediata
+          must_change_password: true,   // fuerza cambio en primer login
         }
       }
     });
